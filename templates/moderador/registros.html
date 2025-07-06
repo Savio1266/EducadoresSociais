@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Registros - {{ estudante.nome }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .registro-bloco {
+      background-color: #ffffff;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+    .data-header {
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-4">
+    <h3>Registros de Aula - {{ estudante.nome }}</h3>
+    <p><strong>Turma:</strong> {{ estudante.turma }} | <strong>Turno:</strong> {{ estudante.turno }}</p>
+
+    {% if registros %}
+      {% for r in registros %}
+        <div class="registro-bloco">
+          <div class="data-header">📅 {{ r.data }}</div>
+          <p><strong>Disciplina:</strong> {{ r.disciplina }}</p>
+          <p><strong>Quantidade de Aulas:</strong> {{ r.qtd_aulas }}</p>
+          <p><strong>Registro:</strong><br>{{ r.texto }}</p>
+        </div>
+      {% endfor %}
+
+    {% else %}
+      <p>Nenhum registro encontrado para este estudante.</p>
+    {% endif %}
+
+    <a href="{{ url_for('painel_moderador') }}" class="btn btn-secondary mt-4">← Voltar ao Painel</a>
+  </div>
+</body>
+</html>

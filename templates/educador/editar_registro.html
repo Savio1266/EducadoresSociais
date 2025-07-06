@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Editar Registro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f0f2f5;
+    }
+    .container-box {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.08);
+      max-width: 700px;
+      margin: 40px auto;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container container-box">
+  <h4 class="mb-4 text-center">📝 Editar Registro de Aula</h4>
+
+  <form method="POST" action="{{ url_for('editar_registro', registro_id=registro.id, from_student_history=request.args.get('from_student_history')) }}">
+
+    <div class="mb-3">
+      <label class="form-label fw-bold">Data da Aula:</label>
+      <input type="date" name="data" value="{{ registro.data }}" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-bold">Disciplina:</label>
+      <select name="disciplina" class="form-select" required>
+        <option value="">Selecione</option>
+        {% set disciplinas = ['ARTE','CIÊNCIAS','EDUCAÇÃO FÍSICA','GEOGRAFIA','HISTÓRIA','INGLÊS','PORTUGUÊS','MATEMÁTICA','PD1','PD2','PD3','ATENDIMENTO INDIVIDUAL','OFICINA','RODA DE CONVERSA','PROJETO TEMÁTICO'] %}
+        {% for d in disciplinas %}
+          <option value="{{ d }}" {% if registro.disciplina == d %}selected{% endif %}>{{ d }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-bold">Quantidade de Aulas:</label>
+      <select name="qtd_aulas" class="form-select" required>
+        <option value="1" {% if registro.qtd_aulas == 1 %}selected{% endif %}>1 aula</option>
+        <option value="2" {% if registro.qtd_aulas == 2 %}selected{% endif %}>2 aulas</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-bold">Descrição/Observações:</label>
+      <textarea name="texto" rows="5" class="form-control" required>{{ registro.texto }}</textarea>
+    </div>
+
+    <div class="d-grid gap-2">
+      <button type="submit" class="btn btn-success">💾 Salvar Alterações</button>
+      {# Botão voltar inteligente: volta para o histórico do estudante ou para a lista geral #}
+      {% if request.args.get('from_student_history') == 'true' %}
+        <a href="{{ url_for('ver_registros', estudante_id=registro.estudante_id) }}" class="btn btn-secondary">↩️ Voltar ao Histórico do Estudante</a>
+      {% else %}
+        <a href="{{ url_for('ver_registros') }}" class="btn btn-secondary">↩️ Voltar aos Meus Registros</a>
+      {% endif %}
+    </div>
+  </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

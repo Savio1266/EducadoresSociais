@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Registrar Aula</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f0f2f5; }
+    .container-box {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      max-width: 800px;
+      margin: 40px auto;
+    }
+  </style>
+</head>
+<body>
+<div class="container container-box">
+  <h4 class="mb-4 text-center">📘 Registrar Nova Aula</h4>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <form method="POST" action="{{ url_for('registrar_aula') }}">
+
+    <div class="mb-3">
+      <label class="form-label fw-bold">Selecionar Estudantes:</label>
+      {% if estudantes %}
+        <div class="row row-cols-md-2 row-cols-lg-3 g-2">
+            {% for estudante in estudantes %}
+              <div class="col">
+                <div class="form-check">
+                  {# Verifica se o ID do estudante está na lista de estudantes_a_selecionar #}
+                  <input class="form-check-input" type="checkbox" name="estudantes" value="{{ estudante.id }}" id="estudante{{ estudante.id }}"
+                         {% if estudante.id in estudantes_a_selecionar %}checked{% endif %}>
+                  <label class="form-check-label" for="estudante{{ estudante.id }}">
+                    {{ estudante.nome }} ({{ estudante.turma }})
+                  </label>
+                </div>
+              </div>
+            {% endfor %}
+        </div>
+      {% else %}
+        <div class="alert alert-info">Nenhum estudante vinculado a você para registrar aulas.</div>
+      {% endif %}
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-bold">Data da Aula:</label>
+      <input type="date" name="data" class="form-control" value="{{ now().strftime('%Y-%m-%d') }}" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-bold">Disciplina:</label>
+      <select name="disciplina" class="form-select" required>
+        <option value="">Selecione</option>
+        <option>ARTE</option>
+        <option>CIÊNCIAS</option>
+        <option>EDUCAÇÃO FÍSICA</option>
+        <option>GEOGRAFIA</option>
+        <option>HISTÓRIA</option>
+        <option>INGLÊS</option>
+        <option>PORTUGUÊS</option>
+        <option>MATEMÁTICA</option>
+        <option>PD1</option>
+        <option>PD2</option>
+        <option>PD3</option>
+        <option>ATENDIMENTO INDIVIDUAL</option>
+        <option>OFICINA</option>
+        <option>RODA DE CONVERSA</option>
+        <option>PROJETO TEMÁTICO</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-bold">Quantidade de Aulas:</label>
+      <select name="qtd_aulas" class="form-select" required>
+        <option value="">Selecione</option>
+        <option value="1">1 aula</option>
+        <option value="2">2 aulas</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-bold">Observações:</label>
+      <textarea name="texto" rows="5" class="form-control" placeholder="Descreva o que foi trabalhado em aula..." required></textarea>
+    </div>
+
+    <div class="d-grid gap-2">
+      <button type="submit" class="btn btn-success">Salvar Registro(s)</button>
+      <a href="{{ url_for('painel_educador') }}" class="btn btn-secondary">Cancelar</a>
+    </div>
+  </form>
+</div>
+</body>
+</html>

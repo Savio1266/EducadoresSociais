@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Educadores Sociais - CEF 07</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Estilo customizado -->
+    <style>
+        body {
+            background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+            color: white;
+            min-height: 100vh;
+        }
+        .container {
+            margin-top: 5%;
+        }
+        .btn-acesso {
+            margin: 10px;
+            width: 200px;
+            font-weight: bold;
+        }
+        .logo {
+            max-width: 250px;
+            margin-bottom: 20px;
+        }
+        .titulo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+        footer {
+            position: fixed;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container text-center">
+        <img src="{{ url_for('static', filename='logo.JPG') }}" class="logo" alt="Logo CEF07">
+        <p class="titulo">Bem-vindo(a) à página dos Educadores Sociais<br>do Centro de Ensino Fundamental 07 de Sobradinho</p>
+
+        <hr style="border-top: 2px solid white; width: 60%; margin: 30px auto;">
+
+        <div class="d-flex flex-wrap justify-content-center">
+            <a href="{{ url_for('login', tipo='Moderador') }}" class="btn btn-light btn-acesso">Moderador</a>
+            <a href="{{ url_for('login', tipo='Direcao') }}" class="btn btn-light btn-acesso">Direção</a>
+            <a href="{{ url_for('login', tipo='Coordenacao') }}" class="btn btn-light btn-acesso">Coordenação</a>
+            <a href="{{ url_for('login', tipo='Educador') }}" class="btn btn-light btn-acesso">Educador Social</a>
+        </div>
+    </div>
+
+    <footer>
+        Sistema de Diário de Classe Digital &copy; CEF 07 - Desenvolvido pelo Professor Wellton Sávio.️
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
